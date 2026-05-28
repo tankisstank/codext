@@ -1,9 +1,144 @@
+# Ghi chú: Bản này mình folk về để update hướng dẫn tiếng Việt cho dễ dùng. Các bạn cần hỏi thì D.M https://t.me/tankisstank
+
+
+# Hướng dẫn tiếng Việt về cách sử dụng:
+### Codext là gì
+
+codext = một CLI AI coding assistant chạy trong terminal giống Codex CLI, nhưng được Loongphy custom thêm nhiều tính năng:
+
+quản lý nhiều account ChatGPT/Codex
+auto switch account khi rate limit
+auto resume task
+status bar mạnh hơn
+reload AGENTS.md tự động
+tối ưu workflow WSL/Linux
+tương thích codex-auth
+
+Nó chủ yếu dành cho:
+
+dev dùng Codex nhiều giờ/ngày
+nhiều account Plus/Team/Pro
+workflow terminal-first
+automation coding
+
+
+### Cài đặt
+#### Bước 1: Cài codex-auth
+Cài đặt với npm:
+```shell
+npm install -g @loongphy/codex-auth
+```
+Hoặc cài đặt không dùng global:
+```shell
+npx @loongphy/codex-auth list
+```
+#### Bước 2: Cài đặt codext
+
+* Install from npm:
+
+```shell
+npm i -g @loongphy/codext
+```
+
+* Build from source:
+
+```shell
+cd codex-rs
+cargo run --bin codex
+```
+
+#### Bước 3: Sử dụng
+
+Điểm mạnh chính
+1. Multi-account cực mạnh
+
+Đây là feature quan trọng nhất.
+
+Nó kết hợp với:
+```shell
+
+codex-auth
+```
+
+Cho phép:
+
+- lưu nhiều account
+- switch nhanh
+- auto switch khi quota hết
+- xem usage từng account
+
+Ví dụ:
+```
+codex-auth list
+```
+Switch:
+```
+codex-auth switch
+```
+Hoặc:
+```
+codex-auth switch 02
+```
+2. Auto reload auth
+
+codext sẽ monitor auth.json.
+
+Khi account đổi:
+
+- tự reload
+- không cần restart CLI
+- tự resume task dang dở
+
+Đây là khác biệt lớn so với Codex gốc.
+
+3. Auto resume task
+
+Khi account A hết quota:
+
+- codext switch sang account B
+- gửi prompt resume tự động
+- tiếp tục coding
+
+Prompt mặc định:
+
+continue the previous coding task...
+
+Có thể config custom hoặc disable.
+
+4. TUI mạnh hơn upstream
+
+Header hiển thị:
+
+- model
+- effort
+- cwd
+- git status
+- rate limits
+
+Giống IDE mini trong terminal.
+
+5. AGENTS.md auto reload
+
+Nó reload instruction file mỗi turn.
+
+Hữu ích nếu bạn dùng:
+
+- coding rules
+- project conventions
+- AI workflow docs
+
+Rất hợp với:
+
+- monorepo
+- team workflow
+- AI pair programming
+
+
 # Codext
 
 An opinionated Codex CLI. This is strictly a personal hobby project, forked from openai/codex.
 
 ![Preview](https://github.com/user-attachments/assets/cd4bf293-85c4-4e3f-83d3-6c0dd45c9dc6)
-
 
 ## Quick Start
 
@@ -30,11 +165,15 @@ cargo run --bin codex
 
 ### TUI: Status Header
 
+> [!TIP]
+> The icons requires **[Nerd Fonts](https://www.nerdfonts.com/)** installed and configured in your terminal.
+
 The TUI header provides a compact overview of the active session:
-- **Context**: Displays the active model, effort level, and current working directory (`cwd`).
-- **Git Status**: Background-polled summary of the repository state for the session `cwd`.
-- **Rate Limits**: ChatGPT usage-limit snapshots that refresh while the UI is idle.
-- **Account Info**: Email + Plan, API Key
+
+* **Context**: Displays the active model, effort level, and current working directory (`cwd`).
+* **Git Status**: Background-polled summary of the repository state for the session `cwd`.
+* **Rate Limits**: ChatGPT usage-limit snapshots that refresh while the UI is idle.
+* **Account Info**: Email + Plan, API Key
 
 ![Status Header Preview](https://github.com/user-attachments/assets/23350e86-2597-48ea-82a6-378f8f01ac74)
 
